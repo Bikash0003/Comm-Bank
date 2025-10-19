@@ -1,0 +1,113 @@
+{
+  "name": "HomeLoan_Analysis",
+  "description": "Power BI template for Home Loan Data Analysis",
+  "version": "1.0",
+  "dataSource": {
+    "type": "Excel",
+    "file": "Home Loan Data for Analysis.xlsx",
+    "location": "../Data/"
+  },
+  "recommendedVisualizations": [
+    {
+      "name": "Loan Amount Distribution",
+      "type": "Column Chart",
+      "description": "Shows distribution of loan amounts across different ranges",
+      "fields": {
+        "xAxis": "Loan Amount Range",
+        "yAxis": "Count of Loans"
+      }
+    },
+    {
+      "name": "Loan Status Overview",
+      "type": "Pie Chart",
+      "description": "Visualizes the distribution of loan statuses",
+      "fields": {
+        "category": "Loan Status",
+        "value": "Count"
+      }
+    },
+    {
+      "name": "Monthly Loan Trends",
+      "type": "Line Chart",
+      "description": "Tracks loan applications and approvals over time",
+      "fields": {
+        "xAxis": "Month/Year",
+        "yAxis": "Loan Amount"
+      }
+    },
+    {
+      "name": "Customer Age Demographics",
+      "type": "Bar Chart",
+      "description": "Analyzes customer distribution by age groups",
+      "fields": {
+        "xAxis": "Age Group",
+        "yAxis": "Customer Count"
+      }
+    },
+    {
+      "name": "Income vs Loan Amount",
+      "type": "Scatter Plot",
+      "description": "Analyzes correlation between customer income and loan amount",
+      "fields": {
+        "xAxis": "Annual Income",
+        "yAxis": "Loan Amount",
+        "size": "Loan Duration"
+      }
+    },
+    {
+      "name": "Geographic Distribution",
+      "type": "Map",
+      "description": "Shows loan distribution across different locations",
+      "fields": {
+        "location": "City/State",
+        "size": "Total Loan Amount"
+      }
+    }
+  ],
+  "calculatedColumns": [
+    {
+      "name": "Age Group",
+      "formula": "IF([Age] < 30, \"Under 30\", IF([Age] < 40, \"30-39\", IF([Age] < 50, \"40-49\", IF([Age] < 60, \"50-59\", \"60+\"))))",
+      "description": "Categorizes customers into age groups"
+    },
+    {
+      "name": "Loan Amount Range",
+      "formula": "IF([Loan Amount] < 100000, \"Under $100K\", IF([Loan Amount] < 300000, \"$100K-$300K\", IF([Loan Amount] < 500000, \"$300K-$500K\", \"Over $500K\")))",
+      "description": "Groups loan amounts into ranges"
+    },
+    {
+      "name": "Income Bracket",
+      "formula": "IF([Annual Income] < 50000, \"Low\", IF([Annual Income] < 100000, \"Medium\", \"High\"))",
+      "description": "Categorizes income levels"
+    }
+  ],
+  "measures": [
+    {
+      "name": "Total Loans",
+      "formula": "COUNTROWS(Table)",
+      "description": "Total number of loan applications"
+    },
+    {
+      "name": "Average Loan Amount",
+      "formula": "AVERAGE([Loan Amount])",
+      "description": "Average loan amount across all applications"
+    },
+    {
+      "name": "Approval Rate",
+      "formula": "DIVIDE(COUNTROWS(FILTER(Table, [Status] = \"Approved\")), COUNTROWS(Table))",
+      "description": "Percentage of approved loans"
+    }
+  ],
+  "filters": [
+    "Loan Status",
+    "Age Group",
+    "Income Bracket",
+    "Date Range"
+  ],
+  "colorScheme": {
+    "primary": "#1f4e79",
+    "secondary": "#70ad47",
+    "accent": "#ffc000",
+    "background": "#f2f2f2"
+  }
+}
